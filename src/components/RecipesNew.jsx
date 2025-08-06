@@ -77,19 +77,25 @@ export function RecipesNew({ onCreate }) {
           />
         </div>
 
-        {/* Difficulty */}
+        {/* Difficulty - Dropdown */}
         <div className="mb-3">
           <label htmlFor="difficulty" className="form-label fw-semibold">
             Difficulty:
           </label>
-          <input
+          <select
             name="difficulty"
-            type="text"
             id="difficulty"
-            className="form-control"
-            placeholder="easy, medium, or hard"
+            className="form-select"
+            defaultValue=""
             required
-          />
+          >
+            <option value="" disabled>
+              Select difficulty
+            </option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
         </div>
 
         {/* Photo URL */}

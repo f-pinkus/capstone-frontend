@@ -42,6 +42,30 @@ export function RecipeShowPage() {
     });
   };
 
+  // Helper to clean bullet/numbered lines
+  const cleanLines = (text, isNumbered = false) => {
+    return text
+      .split("\n")
+      .map((line) => {
+        const cleaned = isNumbered
+          ? line.replace(/^(\s*\d+[\.\)]|\s*[-*•])\s*/, "")
+          : line.replace(/^(\s*[-*•])\s*/, "");
+        return cleaned.trim();
+      })
+      .join("\n");
+  };
+
+  // Live cleaning on input
+  const handleInputChange = (field, value) => {
+    let cleanedValue = value;
+    if (field === "ingredients") {
+      cleanedValue = cleanLines(value, false);
+    } else if (field === "instructions") {
+      cleanedValue = cleanLines(value, true);
+    }
+    setFormData({ ...formData, [field]: cleanedValue });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -80,25 +104,42 @@ export function RecipeShowPage() {
       </button>
 
       {!editing ? (
-        <div
-          className="card shadow-sm p-4 rounded-4 border-0"
-          style={{ backgroundColor: "#fff" }}
-        >
-          <h1
-            style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }}
-            className="mb-3"
-          >
+        <div className="card shadow-sm p-4 rounded-4 border-0" style={{ backgroundColor: "#fff" }}>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }} className="mb-3">
             {recipe.title}
           </h1>
           <p className="text-muted mb-1">
             <strong>Submitted by:</strong> {recipe.submitted_by}
           </p>
-          <p className="mb-2">
-            <strong>Ingredients:</strong> {recipe.ingredients}
-          </p>
-          <p className="mb-2">
-            <strong>Instructions:</strong> {recipe.instructions}
-          </p>
+
+          {/* Ingredients */}
+          <div className="mb-4">
+            <strong>Ingredients:</strong>
+            <ul className="mt-2 ps-4">
+              {recipe.ingredients
+                .split("\n")
+                .filter((line) => line.trim() !== "")
+                .map((item, index) => {
+                  const cleaned = item.replace(/^(\s*[-*•])\s*/, "");
+                  return <li key={index} className="mb-1">{cleaned}</li>;
+                })}
+            </ul>
+          </div>
+
+          {/* Instructions */}
+          <div className="mb-4">
+            <strong>Instructions:</strong>
+            <ol className="mt-2 ps-4">
+              {recipe.instructions
+                .split("\n")
+                .filter((line) => line.trim() !== "")
+                .map((step, index) => {
+                  const cleaned = step.replace(/^(\s*\d+[\.\)]|\s*[-*•])\s*/, "");
+                  return <li key={index} className="mb-2">{cleaned}</li>;
+                })}
+            </ol>
+          </div>
+
           <p className="mb-3">
             <strong>Difficulty:</strong>{" "}
             <span
@@ -113,9 +154,10 @@ export function RecipeShowPage() {
               }`}
               style={{ fontSize: "1rem", borderRadius: "9999px", padding: "0.35em 0.75em" }}
             >
-              {recipe.difficulty}
+              {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
             </span>
           </p>
+
           {recipe.photo_url && (
             <img
               src={recipe.photo_url}
@@ -135,7 +177,11 @@ export function RecipeShowPage() {
             >
               Edit
             </button>
-            <button className="btn btn-outline-danger fw-semibold" onClick={handleDelete} style={{ borderRadius: "12px" }}>
+            <button
+              className="btn btn-outline-danger fw-semibold"
+              onClick={handleDelete}
+              style={{ borderRadius: "12px" }}
+            >
               Delete
             </button>
           </div>
@@ -155,29 +201,19 @@ export function RecipeShowPage() {
           </style>
         </div>
       ) : (
-        <div
-          className="card shadow-sm p-4 rounded-4 border-0"
-          style={{ backgroundColor: "#fff" }}
-        >
-          <h2
-            style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }}
-            className="mb-4"
-          >
+        <div className="card shadow-sm p-4 rounded-4 border-0" style={{ backgroundColor: "#fff" }}>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }} className="mb-4">
             Edit Recipe
           </h2>
           <form onSubmit={handleSubmit}>
             {/* Title */}
             <div className="mb-3">
-              <label htmlFor="title" className="form-label fw-semibold">
-                Title
-              </label>
+              <label htmlFor="title" className="form-label fw-semibold">Title</label>
               <input
                 id="title"
                 name="title"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="form-control"
                 required
               />
@@ -185,16 +221,12 @@ export function RecipeShowPage() {
 
             {/* Submitted by */}
             <div className="mb-3">
-              <label htmlFor="submitted_by" className="form-label fw-semibold">
-                Submitted by
-              </label>
+              <label htmlFor="submitted_by" className="form-label fw-semibold">Submitted by</label>
               <input
                 id="submitted_by"
                 name="submitted_by"
                 value={formData.submitted_by}
-                onChange={(e) =>
-                  setFormData({ ...formData, submitted_by: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, submitted_by: e.target.value })}
                 className="form-control"
                 required
               />
@@ -202,70 +234,64 @@ export function RecipeShowPage() {
 
             {/* Ingredients */}
             <div className="mb-3">
-              <label htmlFor="ingredients" className="form-label fw-semibold">
-                Ingredients
-              </label>
+              <label htmlFor="ingredients" className="form-label fw-semibold">Ingredients</label>
               <textarea
                 id="ingredients"
                 name="ingredients"
                 value={formData.ingredients}
-                onChange={(e) =>
-                  setFormData({ ...formData, ingredients: e.target.value })
-                }
+                onChange={(e) => handleInputChange("ingredients", e.target.value)}
                 className="form-control"
-                rows={4}
+                rows={5}
                 required
+                placeholder="e.g.\n2 eggs\n1 cup flour\n½ tsp salt"
+                style={{ fontFamily: "monospace", lineHeight: "1.5" }}
               ></textarea>
+              <div className="form-text">Enter one ingredient per line.</div>
             </div>
 
             {/* Instructions */}
             <div className="mb-3">
-              <label htmlFor="instructions" className="form-label fw-semibold">
-                Instructions
-              </label>
+              <label htmlFor="instructions" className="form-label fw-semibold">Instructions</label>
               <textarea
                 id="instructions"
                 name="instructions"
                 value={formData.instructions}
-                onChange={(e) =>
-                  setFormData({ ...formData, instructions: e.target.value })
-                }
+                onChange={(e) => handleInputChange("instructions", e.target.value)}
                 className="form-control"
-                rows={5}
+                rows={6}
                 required
+                placeholder="e.g.\nPreheat oven to 350°F\nMix dry ingredients\nAdd eggs and stir"
+                style={{ fontFamily: "monospace", lineHeight: "1.5" }}
               ></textarea>
+              <div className="form-text">Enter one step per line. Numbers or dashes will be removed automatically.</div>
             </div>
 
             {/* Difficulty */}
             <div className="mb-3">
-              <label htmlFor="difficulty" className="form-label fw-semibold">
-                Difficulty
-              </label>
-              <input
+              <label htmlFor="difficulty" className="form-label fw-semibold">Difficulty</label>
+              <select
                 id="difficulty"
                 name="difficulty"
                 value={formData.difficulty}
-                onChange={(e) =>
-                  setFormData({ ...formData, difficulty: e.target.value })
-                }
-                className="form-control"
-                placeholder="easy, medium, or hard"
+                onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
+                className="form-select"
                 required
-              />
+              >
+                <option value="">Select difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
             </div>
 
             {/* Photo URL */}
             <div className="mb-4">
-              <label htmlFor="photo_url" className="form-label fw-semibold">
-                Photo URL
-              </label>
+              <label htmlFor="photo_url" className="form-label fw-semibold">Photo URL</label>
               <input
                 id="photo_url"
                 name="photo_url"
                 value={formData.photo_url}
-                onChange={(e) =>
-                  setFormData({ ...formData, photo_url: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, photo_url: e.target.value })}
                 className="form-control"
                 placeholder="https://example.com/photo.jpg"
               />
