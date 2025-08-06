@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { RecipesIndex } from "./RecipesIndex";
+import { RecipesNew } from "./RecipesNew";
 
 export function RecipesPage() {
 
@@ -17,8 +18,16 @@ export function RecipesPage() {
 
   useEffect(handleIndex, []);
 
+  const handleCreate = (params, successCallback) => {
+    axios.post("/recipes", params).then((response) => {
+      setRecipes([...recipes, response.data]);
+      successCallback();
+    });
+  };
+
   return (
     <main>
+      <RecipesNew onCreate={handleCreate} />
       <RecipesIndex recipes={recipes} />
     </main>
   )
