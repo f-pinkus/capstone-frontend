@@ -1,7 +1,25 @@
-export function PhotosPage() {
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { RecipesIndex } from "./RecipesIndex";
+
+export function RecipesPage() {
+
+  const [recipes, setRecipes] = useState([]);
+
+  const handleIndex = () => {
+    console.log("handleIndex!");
+
+    axios.get("/recipes").then((response) => {
+      console.log(response.data);
+      setRecipes(response.data);
+    });
+  };
+
+  useEffect(handleIndex, []);
+
   return (
     <main>
-      <h1>Welcome to Your Recipe App!</h1>
+      <RecipesIndex recipes={recipes} />
     </main>
   )
 }

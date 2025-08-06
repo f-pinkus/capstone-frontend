@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Header } from "./components/Header";
-import { PhotosPage } from "./components/RecipesPage";
+import { RecipesPage } from "./components/RecipesPage";
 import { Footer } from "./components/Footer";
 
 axios.defaults.baseURL = "http://localhost:3000";
@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <Header />
-      <PhotosPage />
+      <RecipesPage />
       <Footer />
     </div>
   )
