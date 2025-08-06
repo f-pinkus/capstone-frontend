@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { RecipesNew } from "./RecipesNew";
 
 export function RecipesNewPage() {
   const [_recipes, setRecipes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("/recipes").then((response) => {
@@ -15,7 +17,7 @@ export function RecipesNewPage() {
     axios.post("/recipes", params).then((response) => {
       setRecipes((prev) => [...prev, response.data]);
       successCallback();
-      // Optionally, you can navigate after creation here if you add useNavigate
+      navigate(`/recipes/${response.data.id}`);
     });
   };
 
