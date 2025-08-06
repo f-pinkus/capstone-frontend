@@ -11,7 +11,7 @@ export function Header() {
     >
       <nav className="container d-flex justify-content-between align-items-center">
         <Link to="/" className="brand-link">
-          RecipeShare
+          BiteShare
         </Link>
 
         <div>

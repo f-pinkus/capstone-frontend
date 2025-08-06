@@ -10,7 +10,7 @@ export function Footer() {
         fontSize: "0.9rem",
       }}
     >
-      <p>&copy; 2025 RecipeShare. All rights reserved.</p>
+      <p>&copy; 2025 BiteShare. All rights reserved.</p>
     </footer>
   );
 }
