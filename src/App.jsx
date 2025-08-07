@@ -6,6 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Header } from "./components/Header";
+import { HomePage } from "./components/HomePage";
 import { RecipesNewPage } from "./components/RecipesNewPage";
 import { RecipesPage } from "./components/RecipesPage";
 import { RecipeShowPage } from "./components/RecipeShowPage";
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Navigate to="/recipes" replace />,
+        element: <HomePage />,
       },
       {
         path: "/recipes",
