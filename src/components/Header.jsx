@@ -10,8 +10,15 @@ export function Header() {
       style={{ backgroundColor: "#FAFAF7", borderBottom: "1px solid #ddd" }}
     >
       <nav className="container d-flex justify-content-between align-items-center">
-        <Link to="/" className="brand-link">
-          BiteShare
+        <Link to="/" className="brand-link d-flex align-items-center gap-2">
+          <img
+            src="/capstone-logo.svg"
+            alt="BiteShare Logo"
+            width={32}
+            height={32}
+            style={{ objectFit: "contain" }}
+          />
+          <span>BiteShare</span>
         </Link>
 
         <div>
