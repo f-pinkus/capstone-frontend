@@ -12,7 +12,7 @@ import { RecipesPage } from "./components/RecipesPage";
 import { RecipeShowPage } from "./components/RecipeShowPage";
 import { Footer } from "./components/Footer";
 
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "<your-backend-url>";
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://capstone-backend-891l.onrender.com";
 axios.defaults.withCredentials = true;
 
 function Layout() {
