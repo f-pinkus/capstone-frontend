@@ -12,7 +12,7 @@ import { RecipesPage } from "./components/RecipesPage";
 import { RecipeShowPage } from "./components/RecipeShowPage";
 import { Footer } from "./components/Footer";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "<your-backend-url>";
 axios.defaults.withCredentials = true;
 
 function Layout() {
