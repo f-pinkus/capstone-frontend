@@ -1,4 +1,4 @@
-export function RecipeEdit({ formData, setFormData, handleInputChange, handleSubmit, onCancel }) {
+export function RecipeEditPage({ formData, setFormData, handleInputChange, handleSubmit, onCancel }) {
   return (
     <div className="card shadow-sm p-4 rounded-4 border-0" style={{ backgroundColor: "#fff" }}>
       <h2 style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }} className="mb-4">Edit Recipe</h2>
@@ -71,10 +71,24 @@ export function RecipeEdit({ formData, setFormData, handleInputChange, handleSub
           </select>
         </div>
 
-        <button type="submit" className="btn btn-maroon px-4 py-2 fw-semibold me-3" style={{ borderRadius: "12px" }}>
+        <button
+          type="submit"
+          className="btn fw-semibold me-3"
+          style={{
+            backgroundColor: "#800020",
+            color: "white",
+            borderRadius: "12px",
+            padding: "0.5rem 1.25rem",
+          }}
+        >
           Save
         </button>
-        <button type="button" className="btn btn-outline-secondary fw-semibold" onClick={onCancel} style={{ borderRadius: "12px" }}>
+        <button
+          type="button"
+          className="btn btn-outline-secondary fw-semibold"
+          onClick={onCancel}
+          style={{ borderRadius: "12px" }}
+        >
           Cancel
         </button>
       </form>

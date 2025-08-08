@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ConfirmModal } from "./ConfirmModal";
-import { RecipeEdit } from "./RecipeEditPage";
+import { RecipeEditPage } from "./RecipeEditPage";
 import { cleanLines } from "../helpers/textUtils";
 
 
@@ -57,6 +57,7 @@ export function RecipeShowPage() {
       .then((response) => {
         setRecipe(response.data);
         setEditing(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       })
       .catch(() => alert("Error updating recipe."));
   };
@@ -150,7 +151,7 @@ export function RecipeShowPage() {
           `}</style>
         </div>
       ) : (
-        <RecipeEdit
+        <RecipeEditPage
           formData={formData}
           setFormData={setFormData}
           handleInputChange={handleInputChange}
