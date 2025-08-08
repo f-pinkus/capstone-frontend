@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import { RecipesNew } from "./RecipesNew";
+import { cleanLines } from "../helpers/textUtils";
 
 export function RecipesNewPage() {
   const [_recipes, setRecipes] = useState([]);
   const navigate = useNavigate();
   const { isLoggedIn } = useOutletContext();
 
-  // Get user's name from localStorage (or fallback to empty string)
   const userName = localStorage.getItem("name") || "";
 
   useEffect(() => {
@@ -18,7 +18,17 @@ export function RecipesNewPage() {
   }, []);
 
   const handleCreate = (params, successCallback) => {
-    axios.post("/recipes", params).then((response) => {
+    // Convert FormData to plain object
+    const plainParams = Object.fromEntries(params);
+
+    // Clean ingredients and instructions before sending
+    const cleanedParams = {
+      ...plainParams,
+      ingredients: cleanLines(plainParams.ingredients, false),
+      instructions: cleanLines(plainParams.instructions, true),
+    };
+
+    axios.post("/recipes", cleanedParams).then((response) => {
       setRecipes((prev) => [...prev, response.data]);
       successCallback();
       navigate(`/recipes/${response.data.id}`);

@@ -1,147 +1,186 @@
-export function RecipesNew({ onCreate, userName = "" }) {
+import React, { useState } from "react";
+import { cleanLines } from "../helpers/textUtils";
+
+export function RecipesNew({ onCreate, userName }) {
+  const [formData, setFormData] = useState({
+    title: "",
+    submitted_by: userName || "",
+    photo_url: "",
+    ingredients: "",
+    instructions: "",
+    difficulty: "",
+  });
+
+  // Clean on blur helper
+  const handleBlur = (field) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: cleanLines(prev[field], field === "instructions"),
+    }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const form = event.target;
-    const params = new FormData(form);
-    const successCallback = () => form.reset();
-    onCreate(params, successCallback);
+    // Prepare cleaned data on submit as backup
+    const cleanedData = {
+      ...formData,
+      ingredients: cleanLines(formData.ingredients, false),
+      instructions: cleanLines(formData.instructions, true),
+    };
+
+    // Convert cleanedData to FormData for compatibility
+    const params = new FormData();
+    Object.entries(cleanedData).forEach(([key, val]) => {
+      params.append(key, val);
+    });
+
+    onCreate(params, () => {
+      setFormData({
+        title: "",
+        submitted_by: userName || "",
+        photo_url: "",
+        ingredients: "",
+        instructions: "",
+        difficulty: "",
+      });
+    });
   };
 
   return (
-    <div
-      className="container py-5"
-      style={{
-        backgroundColor: "#FAFAF7",
-        minHeight: "100vh",
-        fontFamily: "'Nunito', sans-serif",
-      }}
-    >
-      <h1
-        className="mb-4"
-        style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }}
-      >
-        Add a Recipe:
-      </h1>
+    <form onSubmit={handleSubmit} style={{ fontFamily: "'Nunito', sans-serif" }}>
+      <div className="mb-3">
+        <label htmlFor="title" className="form-label fw-semibold">
+          Title
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          className="form-control"
+          required
+          autoComplete="off"
+        />
+      </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-4 shadow-sm border border-light"
-      >
-        {/* Title */}
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label fw-semibold">
-            Title:
-          </label>
-          <input
-            name="title"
-            type="text"
-            id="title"
-            className="form-control"
-            required
-          />
-        </div>
+      <div className="mb-3">
+        <label htmlFor="submitted_by" className="form-label fw-semibold">
+          Submitted by
+        </label>
+        <input
+          type="text"
+          id="submitted_by"
+          name="submitted_by"
+          value={formData.submitted_by}
+          onChange={handleChange}
+          className="form-control"
+          autoComplete="off"
+          required
+        />
+      </div>
 
-        {/* Submitted By */}
-        <div className="mb-3">
-          <label htmlFor="submitted_by" className="form-label fw-semibold">
-            Submitted By:
-          </label>
-          <input
-            name="submitted_by"
-            type="text"
-            id="submitted_by"
-            className="form-control"
-            required
-            defaultValue={userName}
-          />
-        </div>
+      <div className="mb-3">
+        <label htmlFor="photo_url" className="form-label fw-semibold">
+          Photo URL
+        </label>
+        <input
+          type="url"
+          id="photo_url"
+          name="photo_url"
+          value={formData.photo_url}
+          onChange={handleChange}
+          className="form-control"
+          placeholder="https://example.com/photo.jpg"
+          autoComplete="off"
+        />
+      </div>
 
-        {/* Ingredients */}
-        <div className="mb-3">
-          <label htmlFor="ingredients" className="form-label fw-semibold">
-            Ingredients:
-          </label>
-          <textarea
-            name="ingredients"
-            id="ingredients"
-            className="form-control"
-            rows={4}
-            required
-          />
-        </div>
+      <div className="mb-3">
+        <label htmlFor="ingredients" className="form-label fw-semibold">
+          Ingredients
+        </label>
+        <textarea
+          id="ingredients"
+          name="ingredients"
+          value={formData.ingredients}
+          onChange={handleChange}
+          onBlur={() => handleBlur("ingredients")}
+          className="form-control"
+          rows={5}
+          placeholder={`e.g.\n2 eggs\n1 cup flour\n½ tsp salt`}
+          required
+          style={{ fontFamily: "monospace", lineHeight: "1.5" }}
+        />
+        <div className="form-text">Enter one ingredient per line.</div>
+      </div>
 
-        {/* Instructions */}
-        <div className="mb-3">
-          <label htmlFor="instructions" className="form-label fw-semibold">
-            Instructions:
-          </label>
-          <textarea
-            name="instructions"
-            id="instructions"
-            className="form-control"
-            rows={5}
-            required
-          />
-        </div>
+      <div className="mb-3">
+        <label htmlFor="instructions" className="form-label fw-semibold">
+          Instructions
+        </label>
+        <textarea
+          id="instructions"
+          name="instructions"
+          value={formData.instructions}
+          onChange={handleChange}
+          onBlur={() => handleBlur("instructions")}
+          className="form-control"
+          rows={6}
+          placeholder={`e.g.\nPreheat oven to 350°F\nMix dry ingredients\nAdd eggs and stir`}
+          required
+          style={{ fontFamily: "monospace", lineHeight: "1.5" }}
+        />
+        <div className="form-text">Enter one step per line.</div>
+      </div>
 
-        {/* Difficulty */}
-        <div className="mb-3">
-          <label htmlFor="difficulty" className="form-label fw-semibold">
-            Difficulty:
-          </label>
-          <select
-            name="difficulty"
-            id="difficulty"
-            className="form-select"
-            defaultValue=""
-            required
-          >
-            <option value="" disabled>
-              Select difficulty
-            </option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-        </div>
-
-        {/* Photo URL */}
-        <div className="mb-4">
-          <label htmlFor="photo_url" className="form-label fw-semibold">
-            Photo URL:
-          </label>
-          <input
-            name="photo_url"
-            type="text"
-            id="photo_url"
-            className="form-control"
-            placeholder="https://example.com/photo.jpg"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="btn btn-maroon px-4 py-2 fw-semibold"
-          style={{ borderRadius: "12px" }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#660018")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#800020")}
+      <div className="mb-4">
+        <label htmlFor="difficulty" className="form-label fw-semibold">
+          Difficulty
+        </label>
+        <select
+          id="difficulty"
+          name="difficulty"
+          className="form-select"
+          value={formData.difficulty}
+          onChange={handleChange}
+          required
         >
-          Save
-        </button>
+          <option value="">Select difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
 
-        <style>{`
-          .btn-maroon {
-            background-color: #800020;
-            color: white;
-            transition: background-color 0.3s ease;
-          }
-          .btn-maroon:hover {
-            background-color: #660018;
-            color: white;
-          }
-        `}</style>
-      </form>
-    </div>
+      <button
+        type="submit"
+        className="btn btn-maroon px-4 py-2 fw-semibold"
+        style={{ borderRadius: "12px" }}
+      >
+        Submit Recipe
+      </button>
+
+      <style>{`
+        .btn-maroon {
+          background-color: #800020;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+        .btn-maroon:hover {
+          background-color: #660018;
+          color: white;
+        }
+      `}</style>
+    </form>
   );
 }

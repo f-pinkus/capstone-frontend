@@ -2,7 +2,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ConfirmModal } from "./ConfirmModal";
-import { RecipeEdit } from "./RecipeEdit"; 
+import { RecipeEdit } from "./RecipeEditPage";
+import { cleanLines } from "../helpers/textUtils";
+
 
 export function RecipeShowPage() {
   const { id } = useParams();
@@ -36,19 +38,6 @@ export function RecipeShowPage() {
       })
       .catch(() => setError("Recipe not found."));
   }, [id]);
-
-  const cleanLines = (text, isNumbered = false) => {
-    return text
-      .split("\n")
-      .map((line) => {
-        const cleaned = isNumbered
-          ? line.replace(/^(\s*\d+[\.\)]|\s*[-*•])\s*/, "")
-          : line.replace(/^(\s*[-*•])\s*/, "");
-        return cleaned.trim();
-      })
-      .filter((line) => line !== "")
-      .join("\n");
-  };
 
   const handleInputChange = (field, value) => {
     let cleanedValue = value;
