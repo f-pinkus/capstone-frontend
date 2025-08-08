@@ -1,4 +1,4 @@
-export function RecipesNew({ onCreate }) {
+export function RecipesNew({ onCreate, userName = "" }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -11,7 +11,11 @@ export function RecipesNew({ onCreate }) {
   return (
     <div
       className="container py-5"
-      style={{ backgroundColor: "#FAFAF7", minHeight: "100vh", fontFamily: "'Nunito', sans-serif" }}
+      style={{
+        backgroundColor: "#FAFAF7",
+        minHeight: "100vh",
+        fontFamily: "'Nunito', sans-serif",
+      }}
     >
       <h1
         className="mb-4"
@@ -20,7 +24,10 @@ export function RecipesNew({ onCreate }) {
         Add a Recipe:
       </h1>
 
-      <form onSubmit={handleSubmit} className="bg-white p-4 rounded-4 shadow-sm border border-light">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-4 rounded-4 shadow-sm border border-light"
+      >
         {/* Title */}
         <div className="mb-3">
           <label htmlFor="title" className="form-label fw-semibold">
@@ -46,6 +53,7 @@ export function RecipesNew({ onCreate }) {
             id="submitted_by"
             className="form-control"
             required
+            defaultValue={userName}
           />
         </div>
 
@@ -77,7 +85,7 @@ export function RecipesNew({ onCreate }) {
           />
         </div>
 
-        {/* Difficulty - Dropdown */}
+        {/* Difficulty */}
         <div className="mb-3">
           <label htmlFor="difficulty" className="form-label fw-semibold">
             Difficulty:
@@ -115,29 +123,24 @@ export function RecipesNew({ onCreate }) {
         <button
           type="submit"
           className="btn btn-maroon px-4 py-2 fw-semibold"
-          style={{
-            borderRadius: "12px",
-          }}
+          style={{ borderRadius: "12px" }}
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#660018")}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#800020")}
         >
           Save
         </button>
 
-        {/* Custom maroon button style */}
-        <style>
-          {`
-            .btn-maroon {
-              background-color: #800020;
-              color: white;
-              transition: background-color 0.3s ease;
-            }
-            .btn-maroon:hover {
-              background-color: #660018;
-              color: white;
-            }
-          `}
-        </style>
+        <style>{`
+          .btn-maroon {
+            background-color: #800020;
+            color: white;
+            transition: background-color 0.3s ease;
+          }
+          .btn-maroon:hover {
+            background-color: #660018;
+            color: white;
+          }
+        `}</style>
       </form>
     </div>
   );

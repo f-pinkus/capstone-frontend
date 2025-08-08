@@ -15,6 +15,7 @@ export function LoginPage() {
       .post("/login", params)
       .then((response) => {
         localStorage.setItem("email", response.data.email);
+        localStorage.setItem("name", response.data.name);
         setIsLoggedIn(true);
         event.target.reset();
         navigate("/");

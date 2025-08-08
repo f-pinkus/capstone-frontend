@@ -14,6 +14,7 @@ export function SignupPage() {
       .post("/signup", params)
       .then((response) => {
         localStorage.setItem("email", response.data.email);
+        localStorage.setItem("name", response.data.name);
         event.target.reset();
         navigate("/");
       })

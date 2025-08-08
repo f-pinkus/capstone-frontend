@@ -8,6 +8,9 @@ export function RecipesNewPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useOutletContext();
 
+  // Get user's name from localStorage (or fallback to empty string)
+  const userName = localStorage.getItem("name") || "";
+
   useEffect(() => {
     axios.get("/recipes").then((response) => {
       setRecipes(response.data);
@@ -32,7 +35,7 @@ export function RecipesNewPage() {
     >
       {isLoggedIn ? (
         <div className="container" style={{ maxWidth: "700px", width: "100%" }}>
-          <RecipesNew onCreate={handleCreate} />
+          <RecipesNew onCreate={handleCreate} userName={userName} />
         </div>
       ) : (
         <div
@@ -85,7 +88,6 @@ export function RecipesNewPage() {
           transition: color 0.3s ease;
           cursor: pointer;
         }
-
         .auth-link:hover {
           color: #660018;
         }
