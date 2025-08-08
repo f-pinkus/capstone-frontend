@@ -42,7 +42,6 @@ export function RecipeShowPage() {
     });
   };
 
-  // Helper to clean bullet/numbered lines
   const cleanLines = (text, isNumbered = false) => {
     return text
       .split("\n")
@@ -55,7 +54,6 @@ export function RecipeShowPage() {
       .join("\n");
   };
 
-  // Live cleaning on input
   const handleInputChange = (field, value) => {
     let cleanedValue = value;
     if (field === "ingredients") {
@@ -85,11 +83,25 @@ export function RecipeShowPage() {
       </div>
     );
   if (!recipe)
-    return (
-      <div className="container py-5" style={{ fontFamily: "'Nunito', sans-serif" }}>
-        <p>Loading...</p>
+  return (
+    <div
+      className="container d-flex flex-column justify-content-center align-items-center py-5"
+      style={{ minHeight: "60vh", fontFamily: "'Nunito', sans-serif" }}
+    >
+      <div className="spinner-border text-maroon mb-3" role="status" style={{ width: "3rem", height: "3rem" }}>
+        <span className="visually-hidden">Loading...</span>
       </div>
-    );
+      <p className="text-muted fs-5">Cooking up something delicious…</p>
+
+      <style>
+        {`
+          .text-maroon {
+            color: #800020;
+          }
+        `}
+      </style>
+    </div>
+  );
 
   return (
     <div
@@ -112,7 +124,6 @@ export function RecipeShowPage() {
             <strong>Submitted by:</strong> {recipe.submitted_by}
           </p>
 
-          {/* Ingredients */}
           <div className="mb-4">
             <strong>Ingredients:</strong>
             <ul className="mt-2 ps-4">
@@ -126,7 +137,6 @@ export function RecipeShowPage() {
             </ul>
           </div>
 
-          {/* Instructions */}
           <div className="mb-4">
             <strong>Instructions:</strong>
             <ol className="mt-2 ps-4">
@@ -163,11 +173,12 @@ export function RecipeShowPage() {
               src={recipe.photo_url}
               alt={recipe.title}
               className="img-fluid rounded-4 mb-4"
-              style={{ maxHeight: "300px", objectFit: "cover" }}
+              style={{ maxHeight: "700px", objectFit: "cover" }}
             />
           )}
 
-          <div className="d-flex gap-3">
+          {/* Action Buttons */}
+          <div className="d-flex gap-3 flex-wrap">
             <button
               className="btn btn-maroon fw-semibold"
               onClick={() => setEditing(true)}
@@ -177,12 +188,23 @@ export function RecipeShowPage() {
             >
               Edit
             </button>
+
             <button
               className="btn btn-outline-danger fw-semibold"
               onClick={handleDelete}
               style={{ borderRadius: "12px" }}
             >
               Delete
+            </button>
+
+            <button
+              onClick={() => navigate("/recipes")}
+              className="btn btn-outline-secondary fw-semibold"
+              style={{
+                borderRadius: "12px",
+              }}
+            >
+              Back
             </button>
           </div>
 
