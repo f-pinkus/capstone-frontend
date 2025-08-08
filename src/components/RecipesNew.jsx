@@ -17,7 +17,7 @@ export function RecipesNew({ onCreate }) {
         className="mb-4"
         style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }}
       >
-        New Recipe
+        Add a Recipe:
       </h1>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded-4 shadow-sm border border-light">
