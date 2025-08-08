@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, Link } from "react-router-dom";
 import { RecipesNew } from "./RecipesNew";
 
 export function RecipesNewPage() {
@@ -60,19 +60,19 @@ export function RecipesNewPage() {
           </h2>
           <p style={{ fontSize: "1.15rem", color: "#5a3a39", marginBottom: "1.8rem" }}>
             Please{" "}
-            <a href="/login" className="auth-link">
+            <Link to="/login" className="auth-link">
               log in
-            </a>{" "}
+            </Link>{" "}
             or{" "}
-            <a href="/signup" className="auth-link">
+            <Link to="/signup" className="auth-link">
               sign up
-            </a>{" "}
+            </Link>{" "}
             to upload a recipe.
           </p>
           <p style={{ marginTop: 0, fontSize: "1.1rem" }}>
-            <a href="/recipes" className="auth-link">
+            <Link to="/recipes" className="auth-link">
               Or continue as guest
-            </a>
+            </Link>
           </p>
         </div>
       )}
