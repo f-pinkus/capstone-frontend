@@ -5,6 +5,7 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
   const location = useLocation();
   const isRecipesPage = location.pathname === "/recipes";
   const isHomePage = location.pathname === "/home";
+  const isFavoritesPage = location.pathname === "/favorite_recipes";
 
   return (
     <header
@@ -43,10 +44,12 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
                   Dashboard
                 </Link>
               )}
-              <Link to="/favorite_recipes" className="auth-button-link">
+              {!isFavoritesPage && (
+                <Link to="/favorite_recipes" className="auth-button-link">
                   Favorites
                 </Link>
-                <LogoutLink setIsLoggedIn={setIsLoggedIn} />
+              )}
+              <LogoutLink setIsLoggedIn={setIsLoggedIn} />
             </>
           ) : (
             <>
