@@ -4,6 +4,7 @@ import { LogoutLink } from "./LogoutLink";
 export function Header({ isLoggedIn, setIsLoggedIn }) {
   const location = useLocation();
   const isRecipesPage = location.pathname === "/recipes";
+  const isHomePage = location.pathname === "/home";
 
   return (
     <header
@@ -24,19 +25,34 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
 
         <div>
           {isRecipesPage ? (
-            <Link to="/recipes/new" className="nav-button-link">New Recipe</Link>
+            <Link to="/recipes/new" className="nav-button-link">
+              New Recipe
+            </Link>
           ) : (
-            <Link to="/recipes" className="nav-button-link">All Recipes</Link>
+            <Link to="/recipes" className="nav-button-link">
+              All Recipes
+            </Link>
           )}
         </div>
 
         <div className="d-flex align-items-center gap-2">
           {isLoggedIn ? (
-            <LogoutLink setIsLoggedIn={setIsLoggedIn} />
+            <>
+              {!isHomePage && (
+                <Link to="/home" className="auth-button-link">
+                  Home
+                </Link>
+              )}
+              <LogoutLink setIsLoggedIn={setIsLoggedIn} />
+            </>
           ) : (
             <>
-              <Link to="/signup" className="auth-button-link">Sign Up</Link>
-              <Link to="/login" className="auth-button-link">Login</Link>
+              <Link to="/signup" className="auth-button-link">
+                Sign Up
+              </Link>
+              <Link to="/login" className="auth-button-link">
+                Login
+              </Link>
             </>
           )}
         </div>

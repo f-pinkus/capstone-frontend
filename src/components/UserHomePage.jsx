@@ -15,36 +15,111 @@ export function UserHomePage({ user }) {
   }, []);
 
   if (user === undefined) {
-    // User info still loading (should rarely happen here since App waits)
-    return <div>Loading user info...</div>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "60vh", fontFamily: "'Nunito', sans-serif" }}
+      >
+        <div className="spinner-border text-maroon" role="status" style={{ width: "3rem", height: "3rem" }}>
+          <span className="visually-hidden">Loading user info...</span>
+        </div>
+      </div>
+    );
   }
 
   if (!user) {
-    // Not logged in / no user found
     return (
-      <div>
-        Account not found. <Link to="/signup">Sign up here</Link>.
+      <div
+        className="container py-5"
+        style={{ fontFamily: "'Nunito', sans-serif", backgroundColor: "#FAFAF7", minHeight: "60vh" }}
+      >
+        <p className="text-center text-danger fs-5">
+          Account not found. <Link to="/signup" className="text-maroon text-decoration-underline">Sign up here</Link>.
+        </p>
       </div>
     );
   }
 
   if (loadingRecipes) {
-    return <div>Loading your recipes...</div>;
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "60vh", fontFamily: "'Nunito', sans-serif" }}
+      >
+        <div className="spinner-border text-maroon" role="status" style={{ width: "3rem", height: "3rem" }}>
+          <span className="visually-hidden">Loading your recipes...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="container py-4">
-      <h1>Welcome, {user.name}</h1>
-      <h2>My Recipes</h2>
+    <div
+      className="container py-5"
+      style={{ backgroundColor: "#FAFAF7", fontFamily: "'Nunito', sans-serif", minHeight: "60vh" }}
+    >
+      <h1
+        className="mb-4"
+        style={{ fontFamily: "'Playfair Display', serif", color: "#800020", fontWeight: "700" }}
+      >
+        Welcome, {user.name}
+      </h1>
+
+      <h2 className="mb-3" style={{ color: "#800020", fontWeight: "600" }}>
+        My Recipes
+      </h2>
+
       {recipes.length > 0 ? (
-        <ul>
+        <ul className="list-group mb-4" style={{ maxWidth: "600px" }}>
           {recipes.map((recipe) => (
-            <li key={recipe.id}>{recipe.title}</li>
+            <li
+              key={recipe.id}
+              className="list-group-item d-flex justify-content-between align-items-center rounded-3 shadow-sm mb-2"
+              style={{ backgroundColor: "white" }}
+            >
+              <Link to={`/recipes/${recipe.id}`} className="text-maroon fw-semibold text-decoration-none">
+                {recipe.title}
+              </Link>
+              <Link
+                to={`/recipes/${recipe.id}`}
+                className="btn btn-sm btn-maroon fw-semibold"
+                style={{ borderRadius: "12px" }}
+              >
+                View
+              </Link>
+            </li>
           ))}
         </ul>
       ) : (
-        <p>You haven't added any recipes yet.</p>
+        <p className="text-muted fs-5">You haven't added any recipes yet.</p>
       )}
+
+      <Link
+        to="/recipes/new"
+        className="btn btn-maroon fw-semibold px-4 py-2"
+        style={{ borderRadius: "12px" }}
+      >
+        New Recipe
+      </Link>
+
+      <style>{`
+        .text-maroon {
+          color: #800020;
+        }
+        .text-maroon:hover {
+          color: #660018;
+          text-decoration: underline;
+        }
+        .btn-maroon {
+          background-color: #800020;
+          color: white;
+          transition: background-color 0.3s ease;
+        }
+        .btn-maroon:hover {
+          background-color: #660018;
+          color: white;
+        }
+      `}</style>
     </div>
   );
 }
