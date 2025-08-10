@@ -43,7 +43,10 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
                   Dashboard
                 </Link>
               )}
-              <LogoutLink setIsLoggedIn={setIsLoggedIn} />
+              <Link to="/favorite_recipes" className="auth-button-link">
+                  Favorites
+                </Link>
+                <LogoutLink setIsLoggedIn={setIsLoggedIn} />
             </>
           ) : (
             <>
