@@ -40,7 +40,7 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
             <>
               {!isHomePage && (
                 <Link to="/home" className="auth-button-link">
-                  Home
+                  Dashboard
                 </Link>
               )}
               <LogoutLink setIsLoggedIn={setIsLoggedIn} />

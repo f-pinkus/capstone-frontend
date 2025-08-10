@@ -1,31 +1,47 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { WelcomeModal } from "./WelcomeModal";
 
 export function SignupPage() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors([]);
     const params = new FormData(event.target);
+
     axios
       .post("/signup", params)
       .then((response) => {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("name", response.data.name);
         event.target.reset();
-        navigate("/login");
+
+        // Show welcome modal instead of navigating immediately
+        setShowModal(true);
       })
       .catch((error) => {
         setErrors(error.response?.data?.errors || ["Something went wrong."]);
       });
   };
 
+  // Handler to close modal and navigate to login
+  const handleGoToLogin = () => {
+    setShowModal(false);
+    navigate("/login");
+  };
+
   return (
-    <div className="container py-5" style={{ fontFamily: "'Nunito', sans-serif", maxWidth: "500px", margin: "0 auto" }}>
-      <h1 className="mb-4" style={{ color: "#800020", textAlign: "center" }}>Create an Account</h1>
+    <div
+      className="container py-5"
+      style={{ fontFamily: "'Nunito', sans-serif", maxWidth: "500px", margin: "0 auto" }}
+    >
+      <h1 className="mb-4" style={{ color: "#800020", textAlign: "center" }}>
+        Create an Account
+      </h1>
       <ul className="text-danger" style={{ textAlign: "left" }}>
         {errors.map((error) => (
           <li key={error}>{error}</li>
@@ -50,7 +66,9 @@ export function SignupPage() {
         </div>
 
         <div style={{ textAlign: "center" }}>
-          <button type="submit" className="auth-button">Sign Up</button>
+          <button type="submit" className="auth-button">
+            Sign Up
+          </button>
         </div>
 
         <p
@@ -93,6 +111,13 @@ export function SignupPage() {
           background-color: #660018;
         }
       `}</style>
+
+      {showModal && (
+        <WelcomeModal
+          message="Welcome to BiteShare!"
+          onClose={handleGoToLogin} // modal button will navigate to login
+        />
+      )}
     </div>
   );
 }
