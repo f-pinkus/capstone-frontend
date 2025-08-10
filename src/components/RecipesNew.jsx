@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { cleanLines } from "../helpers/textUtils";
+import { useNavigate } from "react-router-dom";
 
 export function RecipesNew({ onCreate, userName }) {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: "",
     submitted_by: userName || "",
@@ -162,13 +165,19 @@ export function RecipesNew({ onCreate, userName }) {
         </select>
       </div>
 
-      <button
-        type="submit"
-        className="btn btn-maroon px-4 py-2 fw-semibold"
-        style={{ borderRadius: "12px" }}
-      >
-        Submit Recipe
-      </button>
+     
+      <div className="d-flex gap-3 flex-wrap">
+        <button
+          type="submit"
+          className="btn btn-maroon px-4 py-2 fw-semibold"
+          style={{ borderRadius: "12px" }}
+        >
+          Submit Recipe
+        </button>
+        <button 
+          onClick={() => navigate("/recipes")} className="btn btn-outline-danger fw-semibold" style={{ borderRadius: "12px" }}>cancel
+        </button>
+      </div>
 
       <style>{`
         .btn-maroon {
