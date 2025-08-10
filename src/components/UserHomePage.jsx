@@ -77,7 +77,18 @@ export function UserHomePage({ user }) {
               className="list-group-item d-flex justify-content-between align-items-center rounded-3 shadow-sm mb-2"
               style={{ backgroundColor: "white" }}
             >
-              <Link to={`/recipes/${recipe.id}`} className="text-maroon fw-semibold text-decoration-none">
+              <Link
+                to={`/recipes/${recipe.id}`}
+                className="d-flex align-items-center text-maroon fw-semibold text-decoration-none"
+              >
+                {recipe.photo_url && (
+                  <img
+                    src={recipe.photo_url}
+                    alt={`${recipe.title} preview`}
+                    className="me-3 rounded"
+                    style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "8px" }}
+                  />
+                )}
                 {recipe.title}
               </Link>
               <Link
