@@ -175,7 +175,7 @@ export function RecipesNew({ onCreate, userName }) {
           Submit Recipe
         </button>
         <button 
-          onClick={() => navigate("/recipes")} className="btn btn-outline-danger fw-semibold" style={{ borderRadius: "12px" }}>cancel
+          onClick={() => navigate("/recipes")} className="btn btn-outline-danger fw-semibold" style={{ borderRadius: "12px" }}>Cancel
         </button>
       </div>
 
