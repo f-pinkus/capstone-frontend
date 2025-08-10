@@ -16,7 +16,7 @@ export function SignupPage() {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("name", response.data.name);
         event.target.reset();
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         setErrors(error.response?.data?.errors || ["Something went wrong."]);

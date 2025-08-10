@@ -21,8 +21,8 @@ export function RecipesIndex({ recipes }) {
   const filteredRecipes = recipes.filter((recipe) => {
     const search = searchFilter.toLowerCase();
     return (
-      recipe.title.toLowerCase().includes(search) ||
-      recipe.submitted_by.toLowerCase().includes(search)
+      recipe.title?.toLowerCase().includes(search) ||
+      recipe.submitted_by?.toLowerCase().includes(search)
     );
   });
 
@@ -62,7 +62,7 @@ export function RecipesIndex({ recipes }) {
         ) : (
           <div className="row g-4">
             {filteredRecipes.map((recipe) => {
-              const diff = recipe.difficulty.toLowerCase();
+              const diff = recipe.difficulty?.toLowerCase() || "";
               const diffStyle = difficultyStyles[diff] || {
                 className: "bg-secondary text-white",
               };

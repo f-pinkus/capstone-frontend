@@ -5,7 +5,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 export function LoginPage() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useOutletContext();
+  const { setIsLoggedIn, setCurrentUser } = useOutletContext();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,9 +16,12 @@ export function LoginPage() {
       .then((response) => {
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("name", response.data.name);
+
         setIsLoggedIn(true);
+        setCurrentUser(response.data);
+
         event.target.reset();
-        navigate("/");
+        navigate("/home");
       })
       .catch(() => {
         setErrors(["Invalid email or password."]);
