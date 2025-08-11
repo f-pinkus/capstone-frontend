@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import axios from "axios";
 
-export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavoritesPage }) {
+export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavoritesPage, isMyRecipesPage }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -116,6 +116,21 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
                   </Link>
                 </li>
               )}
+
+              {!isMyRecipesPage && (
+                <li>
+                  <Link
+                    to="/my_recipes"
+                    onClick={close}
+                    style={itemBaseStyle}
+                    onMouseEnter={hoverOn}
+                    onMouseLeave={hoverOff}
+                  >
+                    My Recipes
+                  </Link>
+                </li>
+              )}
+
               {!isFavoritesPage && (
                 <li>
                   <Link
@@ -129,6 +144,7 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
                   </Link>
                 </li>
               )}
+
               <li>
                 <a
                   href="/logout"

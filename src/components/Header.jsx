@@ -6,6 +6,7 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
   const isRecipesPage = location.pathname === "/recipes";
   const isHomePage = location.pathname === "/home";
   const isFavoritesPage = location.pathname === "/favorite_recipes";
+  const isMyRecipesPage= location.pathname === "/my_recipes"
 
   return (
     <header
@@ -48,6 +49,7 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
             setIsLoggedIn={setIsLoggedIn}
             isHomePage={isHomePage}
             isFavoritesPage={isFavoritesPage}
+            isMyRecipesPage={location.pathname === "/my_recipes"}
           />
         </div>
       </nav>
