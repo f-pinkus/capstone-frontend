@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { LogoutLink } from "./LogoutLink";
+import { HeaderDropdown } from "./HeaderDropdown";
 
 export function Header({ isLoggedIn, setIsLoggedIn }) {
   const location = useLocation();
@@ -12,7 +12,11 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
       className="py-3 mb-4"
       style={{ backgroundColor: "#FAFAF7", borderBottom: "1px solid #ddd" }}
     >
-      <nav className="container d-flex justify-content-between align-items-center">
+      <nav
+        className="container d-flex align-items-center justify-content-between position-relative"
+        style={{ minHeight: "50px" }}
+      >
+        {/* Left: Logo */}
         <Link to="/" className="brand-link d-flex align-items-center gap-2">
           <img
             src="/capstone-logo.svg"
@@ -24,106 +28,69 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
           <span>BiteShare</span>
         </Link>
 
-        <div>
+        {/* Center: Button */}
+        <div className="center-button-wrapper">
           {isRecipesPage ? (
             <Link to="/recipes/new" className="nav-button-link">
               New Recipe
             </Link>
           ) : (
             <Link to="/recipes" className="nav-button-link">
-              All Recipes
+              Browse Recipes
             </Link>
           )}
         </div>
 
-        <div className="d-flex align-items-center gap-2">
-          {isLoggedIn ? (
-            <>
-              {!isHomePage && (
-                <Link to="/home" className="auth-button-link">
-                  Dashboard
-                </Link>
-              )}
-              {!isFavoritesPage && (
-                <Link to="/favorite_recipes" className="auth-button-link">
-                  Favorites
-                </Link>
-              )}
-              <LogoutLink setIsLoggedIn={setIsLoggedIn} />
-            </>
-          ) : (
-            <>
-              <Link to="/signup" className="auth-button-link">
-                Sign Up
-              </Link>
-              <Link to="/login" className="auth-button-link">
-                Login
-              </Link>
-            </>
-          )}
+        {/* Right: Dropdown */}
+        <div className="dropdown-wrapper">
+          <HeaderDropdown
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            isHomePage={isHomePage}
+            isFavoritesPage={isFavoritesPage}
+          />
         </div>
       </nav>
 
-      <style>
-        {`
-          .brand-link {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            color: #800020;
-            font-weight: 700;
-            text-decoration: none;
-          }
-          .brand-link:hover {
-            color: #660018;
-            text-decoration: underline;
-          }
+      <style>{`
+        .brand-link {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.75rem;
+          color: #800020;
+          font-weight: 700;
+          text-decoration: none;
+        }
+        .brand-link:hover {
+          color: #660018;
+          text-decoration: underline;
+        }
 
-          .nav-button-link {
-            background-color: #800020;
-            color: white;
-            border-radius: 12px;
-            padding: 0.375rem 0.75rem;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            font-weight: 600;
-          }
-          .nav-button-link:hover {
-            background-color: #660018;
-            color: white;
-          }
+        .nav-button-link {
+          background-color: #800020;
+          color: white;
+          border-radius: 12px;
+          padding: 0.375rem 0.75rem;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+          font-weight: 600;
+        }
+        .nav-button-link:hover {
+          background-color: #660018;
+          color: white;
+        }
 
-          .auth-button-link {
-            background-color: transparent;
-            color: #800020;
-            border: 1px solid #800020;
-            border-radius: 8px;
-            padding: 0.375rem 0.75rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s ease, color 0.3s ease;
-          }
-          .auth-button-link:hover {
-            background-color: #800020;
-            color: white;
-            text-decoration: none;
-          }
+        /* Center the middle button perfectly */
+        .center-button-wrapper {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
 
-          .btn-outline-dark {
-            border: 1px solid #800020;
-            color: #800020;
-            font-weight: 600;
-            border-radius: 8px;
-            padding: 0.375rem 0.75rem;
-            background-color: transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
-          }
-
-          .btn-outline-dark:hover {
-            background-color: #800020;
-            color: white;
-          }
-        `}
-      </style>
+        /* Ensure right dropdown stays aligned */
+        .dropdown-wrapper {
+          margin-left: auto;
+        }
+      `}</style>
     </header>
   );
 }
