@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export function UserHomePage({ user }) {
+export function MyRecipesPage({ user }) {
   const [recipes, setRecipes] = useState([]);
   const [loadingRecipes, setLoadingRecipes] = useState(true);
 
@@ -58,13 +58,6 @@ export function UserHomePage({ user }) {
       className="container py-5"
       style={{ backgroundColor: "#FAFAF7", fontFamily: "'Nunito', sans-serif", minHeight: "60vh" }}
     >
-      <h1
-        className="mb-4"
-        style={{ fontFamily: "'Playfair Display', serif", color: "#800020", fontWeight: "700" }}
-      >
-        Welcome, {user.name}
-      </h1>
-
       <h2 className="mb-3" style={{ color: "#800020", fontWeight: "600" }}>
         My Recipes
       </h2>

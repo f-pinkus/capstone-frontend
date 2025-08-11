@@ -12,8 +12,9 @@ import { SignupPage } from "./components/SignupPage";
 import { LoginPage } from "./components/LoginPage";
 import { RecipesPage } from "./components/RecipesPage";
 import { RecipeShowPage } from "./components/RecipeShowPage";
-import { UserHomePage } from "./components/UserHomePage";
+import { Dashboard } from "./components/Dashboard";
 import { FavoritesPage } from "./components/FavoritesPage";
+import { MyRecipesPage } from "./components/MyRecipesPage";
 import { Footer } from "./components/Footer";
 
 axios.defaults.baseURL =
@@ -94,7 +95,11 @@ function App() {
         { path: "/login", element: <LoginPage /> },
         {
           path: "/home",
-          element: <UserHomePage user={currentUser} />, 
+          element: <Dashboard user={currentUser} />, 
+        },
+        {
+          path: "/my_recipes",
+          element: <MyRecipesPage user={currentUser} />, 
         },
         {
           path: "/favorite_recipes",
