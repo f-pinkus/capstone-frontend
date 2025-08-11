@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { LogoutLink } from "./LogoutLink";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import axios from "axios";
 
 export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavoritesPage }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   function toggle() {
     setOpen((o) => !o);
@@ -13,6 +14,21 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
 
   function close() {
     setOpen(false);
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    axios
+      .delete("/logout")
+      .then(() => {
+        localStorage.removeItem("email");
+        setIsLoggedIn(false);
+        close();
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+      });
   }
 
   useEffect(() => {
@@ -47,20 +63,20 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
   return (
     <div ref={dropdownRef} style={{ position: "relative" }}>
       <button
-  onClick={toggle}
-  aria-haspopup="true"
-  aria-expanded={open}
-  className="nav-button-link"
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "0.25rem",
-    border: "none",
-    cursor: "pointer",
-  }}
->
-  <FaBars size={20} />
-</button>
+        onClick={toggle}
+        aria-haspopup="true"
+        aria-expanded={open}
+        className="nav-button-link"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.25rem",
+          border: "none",
+          cursor: "pointer",
+        }}
+      >
+        <FaBars size={20} />
+      </button>
       {open && (
         <ul
           style={{
@@ -114,14 +130,15 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
                 </li>
               )}
               <li>
-                <Link to="/logout" 
-                  setIsLoggedIn={setIsLoggedIn}
-                  onClick={close} 
-                  style={itemBaseStyle} 
-                  onMouseEnter={hoverOn} 
-                  onMouseLeave={hoverOff}>
+                <a
+                  href="/logout"
+                  onClick={handleLogout}
+                  style={itemBaseStyle}
+                  onMouseEnter={hoverOn}
+                  onMouseLeave={hoverOff}
+                >
                   Logout
-                </Link>
+                </a>
               </li>
             </>
           )}
