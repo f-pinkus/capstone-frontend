@@ -6,24 +6,18 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
   const isRecipesPage = location.pathname === "/recipes";
   const isHomePage = location.pathname === "/home";
   const isFavoritesPage = location.pathname === "/favorite_recipes";
-  const isMyRecipesPage= location.pathname === "/my_recipes"
+  const isMyRecipesPage = location.pathname === "/my_recipes";
 
   return (
-    <header
-      className="py-3 mb-4"
-      style={{ backgroundColor: "#FAFAF7", borderBottom: "1px solid #ddd" }}
-    >
-      <nav
-        className="container d-flex align-items-center justify-content-between position-relative"
-        style={{ minHeight: "50px" }}
-      >
+    <header className="main-header">
+      <nav className="container d-flex align-items-center justify-content-between position-relative header-nav">
         {/* Left: Logo */}
         <Link to="/" className="brand-link d-flex align-items-center gap-2">
           <img
             src="/capstone-logo.svg"
             alt="BiteShare Logo"
-            width={32}
-            height={32}
+            width={28}
+            height={28}
             style={{ objectFit: "contain" }}
           />
           <span>BiteShare</span>
@@ -49,15 +43,21 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
             setIsLoggedIn={setIsLoggedIn}
             isHomePage={isHomePage}
             isFavoritesPage={isFavoritesPage}
-            isMyRecipesPage={location.pathname === "/my_recipes"}
+            isMyRecipesPage={isMyRecipesPage}
           />
         </div>
       </nav>
 
       <style>{`
+        .main-header {
+          background-color: #FAFAF7;
+          border-bottom: 1px solid #ddd;
+          padding: 0.4rem 0; /* Thinner than original */
+        }
+
         .brand-link {
           font-family: 'Playfair Display', serif;
-          font-size: 1.75rem;
+          font-size: 1.6rem; /* Slightly smaller */
           color: #800020;
           font-weight: 700;
           text-decoration: none;
@@ -70,27 +70,58 @@ export function Header({ isLoggedIn, setIsLoggedIn }) {
         .nav-button-link {
           background-color: #800020;
           color: white;
-          border-radius: 12px;
-          padding: 0.375rem 0.75rem;
+          border-radius: 10px;
+          padding: 0.3rem 0.6rem; /* Less padding */
           text-decoration: none;
           transition: background-color 0.3s ease;
           font-weight: 600;
+          white-space: nowrap;
+          font-size: 0.9rem; /* Smaller text */
         }
         .nav-button-link:hover {
           background-color: #660018;
           color: white;
         }
 
-        /* Center the middle button perfectly */
         .center-button-wrapper {
           position: absolute;
           left: 50%;
           transform: translateX(-50%);
         }
 
-        /* Ensure right dropdown stays aligned */
         .dropdown-wrapper {
           margin-left: auto;
+        }
+
+        /* --- MOBILE STYLES --- */
+        @media (max-width: 768px) {
+          .header-nav {
+            flex-direction: row; /* Keep items in a row instead of stacking */
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 0.6rem;
+            min-height: 50px; /* Thinner header */
+          }
+
+          .brand-link {
+            font-size: 1.3rem; /* Smaller brand text */
+          }
+
+          .center-button-wrapper {
+            position: static;
+            transform: none;
+            margin-left: auto;
+            margin-right: 0.5rem;
+          }
+
+          .nav-button-link {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+          }
+
+          .dropdown-wrapper {
+            margin-left: 0;
+          }
         }
       `}</style>
     </header>
