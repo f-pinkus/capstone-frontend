@@ -40,20 +40,29 @@ export function RecipeShowPage() {
   }, [id]);
 
   const handleInputChange = (field, value) => {
-    let cleanedValue = value;
-    if (field === "ingredients") {
-      cleanedValue = cleanLines(value, false);
-    } else if (field === "instructions") {
-      cleanedValue = cleanLines(value, true);
-    }
-    setFormData({ ...formData, [field]: cleanedValue });
+    setFormData({ ...formData, [field]: value });
+  };
+
+  // Clean on blur helper (like in RecipesNew.jsx)
+  const handleBlur = (field) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: cleanLines(prev[field], field === "instructions"),
+    }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Prepare cleaned data on submit as backup
+    const cleanedData = {
+      ...formData,
+      ingredients: cleanLines(formData.ingredients, false),
+      instructions: cleanLines(formData.instructions, true),
+    };
+
     axios
-      .patch(`/recipes/${id}`, formData)
+      .patch(`/recipes/${id}`, cleanedData)
       .then((response) => {
         setRecipe(response.data);
         setEditing(false);
@@ -228,6 +237,7 @@ export function RecipeShowPage() {
           formData={formData}
           setFormData={setFormData}
           handleInputChange={handleInputChange}
+          handleBlur={handleBlur}
           handleSubmit={handleSubmit}
           onCancel={() => setEditing(false)}
         />

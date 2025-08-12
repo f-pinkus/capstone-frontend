@@ -1,4 +1,4 @@
-export function RecipeEditPage({ formData, setFormData, handleInputChange, handleSubmit, onCancel }) {
+export function RecipeEditPage({ formData, setFormData, handleInputChange, handleBlur, handleSubmit, onCancel }) {
   return (
     <div className="card shadow-sm p-4 rounded-4 border-0" style={{ backgroundColor: "#fff" }}>
       <h2 style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }} className="mb-4">Edit Recipe</h2>
@@ -29,6 +29,7 @@ export function RecipeEditPage({ formData, setFormData, handleInputChange, handl
             name="ingredients"
             value={formData.ingredients}
             onChange={(e) => handleInputChange("ingredients", e.target.value)}
+            onBlur={() => handleBlur("ingredients")}
             className="form-control"
             rows={5}
             required
@@ -45,6 +46,7 @@ export function RecipeEditPage({ formData, setFormData, handleInputChange, handl
             name="instructions"
             value={formData.instructions}
             onChange={(e) => handleInputChange("instructions", e.target.value)}
+            onBlur={() => handleBlur("instructions")}
             className="form-control"
             rows={6}
             required
