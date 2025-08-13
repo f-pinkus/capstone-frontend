@@ -18,10 +18,7 @@ export function RecipesNewPage() {
   }, []);
 
   const handleCreate = (params, successCallback) => {
-    // Convert FormData to plain object
     const plainParams = Object.fromEntries(params);
-
-    // Clean ingredients and instructions before sending
     const cleanedParams = {
       ...plainParams,
       ingredients: cleanLines(plainParams.ingredients, false),
@@ -49,29 +46,17 @@ export function RecipesNewPage() {
         </div>
       ) : (
         <div
-          className="p-5 rounded shadow"
+          className="p-5 rounded shadow guest-card"
           style={{
             backgroundColor: "#f9f6f4ff",
             border: "1px solid #ecd7d0",
-            maxWidth: "500px",
-            width: "100%",
             textAlign: "center",
             lineHeight: "1.6",
+            margin: "0 auto",
           }}
         >
-          <h2
-            style={{
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: "700",
-              fontSize: "1.75rem",
-              color: "#800020",
-              marginBottom: "2rem",
-              marginTop: 0,
-            }}
-          >
-            Share Your Recipe
-          </h2>
-          <p style={{ fontSize: "1.15rem", color: "#5a3a39", marginBottom: "1.8rem" }}>
+          <h2 className="guest-card-title">Share Your Recipe</h2>
+          <p className="guest-card-text">
             Please{" "}
             <Link to="/login" className="auth-link">
               log in
@@ -82,7 +67,7 @@ export function RecipesNewPage() {
             </Link>{" "}
             to upload a recipe.
           </p>
-          <p style={{ marginTop: 0, fontSize: "1.1rem" }}>
+          <p className="guest-card-link">
             <Link to="/recipes" className="auth-link">
               Or continue as guest
             </Link>
@@ -100,6 +85,71 @@ export function RecipesNewPage() {
         }
         .auth-link:hover {
           color: #660018;
+        }
+
+        /* Default desktop size */
+        .guest-card {
+          max-width: 500px;
+        }
+        .guest-card-title {
+          font-family: 'Nunito', sans-serif;
+          font-weight: 700;
+          font-size: 1.75rem;
+          color: #800020;
+          margin-bottom: 2rem;
+        }
+        .guest-card-text {
+          font-size: 1.15rem;
+          color: #5a3a39;
+          margin-bottom: 1.8rem;
+        }
+        .guest-card-link {
+          margin-top: 0;
+          font-size: 1.1rem;
+        }
+
+        /* Tablet */
+        @media (max-width: 992px) {
+          .guest-card {
+            max-width: 400px;
+          }
+          .guest-card-title {
+            font-size: 1.6rem;
+          }
+          .guest-card-text,
+          .guest-card-link {
+            font-size: 1.05rem;
+          }
+        }
+
+        /* Small tablet / large phone */
+        @media (max-width: 768px) {
+          .guest-card {
+            max-width: 340px;
+            padding: 1.5rem !important;
+          }
+          .guest-card-title {
+            font-size: 1.45rem;
+          }
+          .guest-card-text,
+          .guest-card-link {
+            font-size: 1rem;
+          }
+        }
+
+        /* Mobile */
+        @media (max-width: 576px) {
+          .guest-card {
+            max-width: 280px;
+            padding: 1.25rem !important;
+          }
+          .guest-card-title {
+            font-size: 1.3rem;
+          }
+          .guest-card-text,
+          .guest-card-link {
+            font-size: 0.95rem;
+          }
         }
       `}</style>
     </main>

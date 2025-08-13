@@ -13,14 +13,13 @@ export function FavoriteButton({ recipeId, initialFavorited }) {
         await axios.post("/favorites", { recipe_id: recipeId });
       }
       setFavorited(!favorited);
-      setAnimate(true); // trigger animation
+      setAnimate(true); 
     } catch (error) {
       console.error("Failed to toggle favorite", error);
       alert("Could not update favorites. Please try again.");
     }
   };
 
-  // Remove animation class after animation completes
   useEffect(() => {
     if (animate) {
       const timer = setTimeout(() => setAnimate(false), 300);

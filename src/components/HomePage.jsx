@@ -26,7 +26,8 @@ export function HomePage() {
         className="text-secondary mb-4 fs-5"
         style={{ animation: "fadeInUp 1.4s ease-in-out" }}
       >
-        Share what you cook. Discover what you crave.
+        Share what you cook. <br className="d-sm-none" />
+        Discover what you crave.
       </p>
 
       <div
