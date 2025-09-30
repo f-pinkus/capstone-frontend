@@ -2,11 +2,13 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { WelcomeModal } from "./WelcomeModal";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export function SignupPage() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,7 +22,6 @@ export function SignupPage() {
         localStorage.setItem("name", response.data.name);
         event.target.reset();
 
-        // Show welcome modal instead of navigating immediately
         setShowModal(true);
       })
       .catch((error) => {
@@ -28,11 +29,12 @@ export function SignupPage() {
       });
   };
 
-  // Handler to close modal and navigate to login
   const handleGoToLogin = () => {
     setShowModal(false);
     navigate("/login");
   };
+
+  const togglePassword = () => setShowPassword((prev) => !prev);
 
   return (
     <div
@@ -56,13 +58,43 @@ export function SignupPage() {
           <label className="form-label">Email</label>
           <input name="email" type="email" className="form-control" required />
         </div>
+
         <div className="mb-3">
           <label className="form-label">Password</label>
-          <input name="password" type="password" className="form-control" required />
+          <div className="input-group">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={togglePassword}
+            >
+              <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+            </button>
+          </div>
         </div>
+
         <div className="mb-4">
           <label className="form-label">Confirm Password</label>
-          <input name="password_confirmation" type="password" className="form-control" required />
+          <div className="input-group">
+            <input
+              name="password_confirmation"
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={togglePassword}
+            >
+              <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+            </button>
+          </div>
         </div>
 
         <div style={{ textAlign: "center" }}>
@@ -115,7 +147,7 @@ export function SignupPage() {
       {showModal && (
         <WelcomeModal
           message="Welcome to BiteShare!"
-          onClose={handleGoToLogin} // modal button will navigate to login
+          onClose={handleGoToLogin}
         />
       )}
     </div>

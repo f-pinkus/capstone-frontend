@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export function LoginPage() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const { setIsLoggedIn, setCurrentUser } = useOutletContext();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,6 +30,8 @@ export function LoginPage() {
       });
   };
 
+  const togglePassword = () => setShowPassword((prev) => !prev);
+
   return (
     <div
       className="container py-5"
@@ -46,7 +50,21 @@ export function LoginPage() {
         </div>
         <div className="mb-4">
           <label className="form-label">Password</label>
-          <input name="password" type="password" className="form-control" required />
+          <div className="input-group">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={togglePassword}
+            >
+              <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+            </button>
+          </div>
         </div>
 
         <div style={{ textAlign: "center" }}>
