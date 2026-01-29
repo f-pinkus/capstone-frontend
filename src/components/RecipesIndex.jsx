@@ -33,14 +33,9 @@ export function RecipesIndex({ recipes }) {
     >
       <div className="container">
         <header className="text-center mb-5">
-          <h1
-            className="fw-bold"
-            style={{ fontFamily: "'Playfair Display', serif", color: "#800020" }}
-          >
-            All Recipes
-          </h1>
 
-          <div className="mx-auto" style={{ maxWidth: "400px" }}>
+
+          <div className="mx-auto position-relative" style={{ maxWidth: "400px" }}>
             <input
               type="text"
               className="form-control rounded-pill shadow-sm px-4"
@@ -50,9 +45,30 @@ export function RecipesIndex({ recipes }) {
               style={{
                 border: "2px solid #800020",
                 fontFamily: "'Nunito', sans-serif",
+                paddingRight: "3 rem",
               }}
             />
+
+            <div
+              className="position-absolute top-50 translate-middle-y"
+              style={{ right: "4px" }}
+            >
+              <div
+                className="d-flex align-items-center justify-content-center"
+                style={{
+                  backgroundColor: "#800020",
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                }}
+              >
+                <i className="bi bi-search text-white"></i>
+              </div>
+            </div>
           </div>
+
+
         </header>
 
         {filteredRecipes.length === 0 ? (
