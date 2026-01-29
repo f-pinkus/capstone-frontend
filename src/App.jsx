@@ -70,8 +70,19 @@ function App() {
 
   if (loading) {
     return (
-      <div className="container py-5 text-center">
-        <h3>Loading user info...</h3>
+      <div
+        className="container d-flex flex-column justify-content-center align-items-center py-5"
+        style={{ minHeight: "60vh", fontFamily: "'Nunito', sans-serif" }}
+      >
+        <div
+          className="spinner-border text-maroon mb-3"
+          role="status"
+          style={{ width: "3rem", height: "3rem" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="text-muted fs-5">Cooking up something delicious…</p>
+        <style>{`.text-maroon { color: #800020; }`}</style>
       </div>
     );
   }
