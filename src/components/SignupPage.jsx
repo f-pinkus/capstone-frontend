@@ -112,6 +112,30 @@ export function SignupPage() {
             textAlign: "center",
           }}
         >
+          Already a member?{" "}
+          <a
+            href="/login"
+            style={{
+              color: "#800020",
+              textDecoration: "underline",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Log in
+          </a>
+          !
+        </p>
+
+        <p
+          style={{
+            marginTop: "2rem",
+            fontFamily: "'Nunito', sans-serif",
+            color: "#800020",
+            fontWeight: "600",
+            textAlign: "center",
+          }}
+        >
           or{" "}
           <a
             href="/recipes"

@@ -1,12 +1,22 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 
 export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavoritesPage, isMyRecipesPage }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const hoverOn = (e) => (e.target.style.backgroundColor = "#F4EDEB");
+  const hoverOff = (e) => (e.target.style.backgroundColor = "transparent");
+  const userIconHoverOn = (e) => {
+    e.target.style.transform = "scale(1.1)";
+    e.target.style.color = "#660000";
+  }
+  const userIconHoverOff = (e) => {
+    e.target.style.transform = "scale(1)";
+    e.target.style.color = "#800000";
+  }
 
   function toggle() {
     setOpen((o) => !o);
@@ -57,26 +67,31 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
     transition: "background 0.2s ease",
   };
 
-  const hoverOn = (e) => (e.target.style.backgroundColor = "#F4EDEB");
-  const hoverOff = (e) => (e.target.style.backgroundColor = "transparent");
-
   return (
     <div ref={dropdownRef} style={{ position: "relative" }}>
-      <button
-        onClick={toggle}
-        aria-haspopup="true"
-        aria-expanded={open}
-        className="nav-button-link"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.25rem",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        <FaBars size={20} />
-      </button>
+      {isLoggedIn ? (
+        <button
+          onClick={toggle}
+          aria-haspopup="true"
+          aria-expanded={open}
+          className="nav-button-link"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.25rem",
+            border: "none",
+            cursor: "pointer",
+            background: "800000",
+          }}
+        >
+          <FaBars size={20} />
+        </button>
+      ) : (
+        <Link to="/login"style={itemBaseStyle} onMouseEnter={userIconHoverOn} onMouseLeave={userIconHoverOff}>
+          <FaUserCircle size={30} />
+        </Link>
+      )}
+
       {open && (
         <ul
           style={{
@@ -96,16 +111,6 @@ export function HeaderDropdown({ isLoggedIn, setIsLoggedIn, isHomePage, isFavori
         >
           {!isLoggedIn ? (
             <>
-              <li>
-                <Link to="/signup" onClick={close} style={itemBaseStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>
-                  Sign Up
-                </Link>
-              </li>
-              <li>
-                <Link to="/login" onClick={close} style={itemBaseStyle} onMouseEnter={hoverOn} onMouseLeave={hoverOff}>
-                  Login
-                </Link>
-              </li>
             </>
           ) : (
             <>

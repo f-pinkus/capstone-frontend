@@ -58,6 +58,7 @@ export function WelcomeModal({ message, onClose }) {
           }
           .btn-confirm:hover {
             background-color: #660018;
+            color: white;
           }
         `}</style>
       </div>

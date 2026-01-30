@@ -80,6 +80,30 @@ export function LoginPage() {
             textAlign: "center",
           }}
         >
+          Don't have an account?{" "}
+          <a
+            href="/signup"
+            style={{
+              color: "#800020",
+              textDecoration: "underline",
+              fontWeight: "700",
+              cursor: "pointer",
+            }}
+          >
+            Create one
+          </a>
+          !
+        </p>
+
+        <p
+          style={{
+            marginTop: "2rem",
+            fontFamily: "'Nunito', sans-serif",
+            color: "#800020",
+            fontWeight: "600",
+            textAlign: "center",
+          }}
+        >
           or{" "}
           <a
             href="/recipes"
